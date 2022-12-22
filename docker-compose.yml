@@ -140,7 +140,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - curl --silent --fail localhost:9200/_cluster/health || exit 1
+        - curl --silent --fail --user elastic:$CI_ELASTIC_PASSWORD localhost:9200/_cluster/health || exit 1
     volumes:
       - ./elasticsearch:/usr/share/elasticsearch/data
       - ./elasticsearch-certs:/usr/share/elasticsearch/config/certs
