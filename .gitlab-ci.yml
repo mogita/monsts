@@ -4,6 +4,10 @@ stages:
 before_script:
   - apk add rsync openssh curl
   - cp $CI_ENV ${CI_PROJECT_DIR}/.env.production
+  - mkdir -p ${CI_PROJECT_DIR}/certs
+  - cp $CI_SSL_KEY ${CI_PROJECT_DIR}/elasticsearch-certs/admin-key.pem
+  - cp $CI_SSL_CERT ${CI_PROJECT_DIR}/elasticsearch-certs/admin.pem
+  - cp $CI_SSL_CA ${CI_PROJECT_DIR}/elasticsearch-certs/root-ca.pem
 
 deploy:
   image: alpine

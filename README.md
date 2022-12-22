@@ -21,6 +21,7 @@ Links that helped me with this setup:
 - Official Documentation https://docs.joinmastodon.org/admin/config/
 - Wasabi Setup https://stanislas.blog/2018/05/moving-mastodon-media-files-to-wasabi-object-storage/
 - Mastodon Docker Guide https://github.com/felx/mastodon-documentation/blob/master/Running-Mastodon/Docker-Guide.md
+- SSL Certificate Guide For ES https://www.modb.pro/db/99726
 
 # License
 
