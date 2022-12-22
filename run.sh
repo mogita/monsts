@@ -2,6 +2,7 @@
 
 set -e
 
+echo "---> working from directory: $CI_PATH"
 cd $CI_PATH
 
 echo "---> fixing elastic search directory permission..."
