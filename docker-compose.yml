@@ -60,6 +60,7 @@ services:
       - redis
     networks:
       - monsts
+      - nginx-proxy
     healthcheck:
       test:
         - CMD-SHELL
