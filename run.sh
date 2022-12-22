@@ -17,6 +17,6 @@ echo "---> assets precompilation..."
 docker-compose run --rm web bundle exec rake assets:precompile
 
 echo "---> bringing up containers..."
-docker-compose up -d --build
+docker-compose up -d --build --remove-orphans
 
 echo done
