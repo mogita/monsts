@@ -149,10 +149,10 @@ services:
   proxy:
     # since ES has no internet access, a proxy is needed for it to download geoip database
     container_name: monsts-squid-proxy
-    image: datadog/squid
+    image: ubuntu/squid:latest
     restart: always
     ports:
-      - "3128:3128"
+      - 127.0.0.1:3128:3128
     networks:
       - monsts
       - nginx-proxy
