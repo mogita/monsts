@@ -18,8 +18,9 @@ Please refer to my [blog article](https://mogita.com/a-personal-mastodon-instanc
 
 Links that helped me with this setup:
 
-- Official documentation https://docs.joinmastodon.org/admin/config/
+- Official Documentation https://docs.joinmastodon.org/admin/config/
 - Wasabi Setup https://stanislas.blog/2018/05/moving-mastodon-media-files-to-wasabi-object-storage/
+- Mastodon Docker Guide https://github.com/felx/mastodon-documentation/blob/master/Running-Mastodon/Docker-Guide.md
 
 # License
 
