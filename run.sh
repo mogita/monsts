@@ -2,6 +2,12 @@
 
 set -e
 
+cd $CI_PATH
+
+echo "---> fixing elastic search directory permission..."
+mkdir -p elasticsearch
+chown -R elasticsearch:elasticsearch elasticsearch
+
 echo "---> db migration..."
 docker-compose run --rm web bundle exec rake db:migrate
 
