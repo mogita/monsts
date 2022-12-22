@@ -1,0 +1,149 @@
+version: '3'
+
+services:
+  web:
+    container_name: monsts-web
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: "."
+    restart: always
+    env_file: .env.production
+    command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
+    ports:
+      - '127.0.0.1:3000:3000'
+    depends_on:
+      - db
+      - redis
+      - es
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -q --spider --proxy=off localhost:3000/health || exit 1']
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  streaming:
+    container_name: monsts-streaming
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: "."
+    restart: always
+    env_file: .env.production
+    command: node ./streaming
+    ports:
+      - '127.0.0.1:4000:4000'
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -q --spider --proxy=off localhost:4000/api/v1/streaming/health || exit 1']
+
+  sidekiq:
+    container_name: monsts-sidekiq
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: "."
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  db:
+    container_name: monsts-db
+    restart: always
+    image: postgres:14-alpine
+    shm_size: 256mb
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=mastodon
+      - POSTGRES_PASSWORD=$CI_POSTGRES_PASSWORD
+    networks:
+      - monsts
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+  redis:
+    container_name: monsts-redis
+    restart: always
+    image: redis:7-alpine
+    networks:
+      - monsts
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+    volumes:
+      - ./redis:/data
+
+   es:
+      container_name: monsts-es
+      build:
+        dockerfile: Dockerfile.elasticsearch
+        context: "."
+     restart: always
+     environment:
+       - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.enforce.bootstrap.checks=true"
+       - "xpack.license.self_generated.type=basic"
+       - "xpack.security.enabled=true"
+       - "ELASTIC_PASSWORD=$CI_ELASTIC_PASSWORD"
+       - "xpack.watcher.enabled=false"
+       - "xpack.graph.enabled=false"
+       - "xpack.ml.enabled=false"
+       - "bootstrap.memory_lock=true"
+       - "cluster.name=es-mastodon"
+       - "discovery.type=single-node"
+       - "thread_pool.write.queue_size=1000"
+     ulimits:
+       memlock:
+         soft: -1
+         hard: -1
+       nofile:
+         soft: 65536
+         hard: 65536
+     ports:
+       - '127.0.0.1:9200:9200'
+     networks:
+        - monsts
+        - nginx-proxy
+     healthcheck:
+        test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+     volumes:
+        - ./elasticsearch:/usr/share/elasticsearch/data
+
+  nginx-web:
+    container_name: monsts-nginx-web
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/monsts.conf
+    expose:
+      - 80
+      - 443
+    networks:
+      - monsts
+      - nginx-proxy
+    environment:
+      VIRTUAL_HOST: mog.blue
+      LETSENCRYPT_HOST: mog.blue
+      LETSENCRYPT_EMAIL: me@mogita.com
+
+networks:
+  monsts:
+    internal: true
+  nginx-proxy:
+    external:
+      name: nginx-proxy
+
