@@ -5,8 +5,9 @@ set -e
 cd $CI_PATH
 
 echo "---> fixing elastic search directory permission..."
+# es image uses 1000:1000 as the uid and gid
 mkdir -p elasticsearch
-chown -R elasticsearch:elasticsearch elasticsearch
+chown -R 1000:1000 elasticsearch
 
 echo "---> db migration..."
 docker-compose run --rm web bundle exec rake db:migrate
