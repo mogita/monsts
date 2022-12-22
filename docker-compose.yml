@@ -109,7 +109,7 @@ services:
       context: .
     restart: always
     environment:
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m -Des.enforce.bootstrap.checks=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx1g -Des.enforce.bootstrap.checks=true
       - xpack.license.self_generated.type=basic
       - xpack.security.enabled=true
       - ELASTIC_PASSWORD=$CI_ELASTIC_PASSWORD
