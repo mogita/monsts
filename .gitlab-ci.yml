@@ -4,6 +4,7 @@ stages:
 before_script:
   - apk add rsync openssh curl
   - cp $CI_ENV ${CI_PROJECT_DIR}/.env.production
+  - cp $CI_SQUID_PASSWORDS_FILE ${CI_PROJECT_DIR}/passwords
   - mkdir -p ${CI_PROJECT_DIR}/elasticsearch-certs
   - cp $CI_SSL_KEY ${CI_PROJECT_DIR}/elasticsearch-certs/admin-key.pem
   - cp $CI_SSL_CERT ${CI_PROJECT_DIR}/elasticsearch-certs/admin.pem

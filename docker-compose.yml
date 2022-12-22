@@ -109,7 +109,7 @@ services:
       context: .
     restart: always
     environment:
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g -Dhttp.proxyHost=monsts-squid-proxy -Dhttp.proxyPort=3128 -Dhttp.proxyUser=squid -Dhttp.proxyPassword=$CI_SQUID_PASSWORD -Dhttps.proxyHost=monsts-squid-proxy -Dhttps.proxyPort=3128 -Dhttps.proxyUser=squid -Dhttps.proxyPassword=$CI_SQUID_PASSWORD -Des.enforce.bootstrap.checks=true
       - ELASTIC_PASSWORD=$CI_ELASTIC_PASSWORD
       - xpack.license.self_generated.type=basic
       - xpack.security.enabled=true
@@ -134,6 +134,8 @@ services:
         hard: 65536
     ports:
       - 127.0.0.1:9200:9200
+    depends_on:
+      - proxy
     networks:
       - monsts
     healthcheck:
@@ -143,6 +145,20 @@ services:
     volumes:
       - ./elasticsearch:/usr/share/elasticsearch/data
       - ./elasticsearch-certs:/usr/share/elasticsearch/config/certs
+
+  proxy:
+    # since ES has no internet access, a proxy is needed for it to download geoip database
+    container_name: monsts-squid-proxy
+    image: datadog/squid
+    restart: always
+    ports:
+      - "3128:3128"
+    networks:
+      - monsts
+      - nginx-proxy
+    volumes:
+      - ./squid.conf:/etc/squid/squid.conf
+      - ./passwords:/etc/squid/passwords
 
   nginx-web:
     container_name: monsts-nginx-web
