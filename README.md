@@ -10,7 +10,11 @@ A Mastodon setup with Docker and `docker compose`. MONSTS stands for Mastodon Of
 # Usage
 
 - Compose your own `.env.production` file in project root
-- Run `docker compose up -d` from the project root directory to start
+- Run `run.sh` from the project root directory to start, example:
+
+```shell
+CI_PATH=<your-project-path> CI_ELASTIC_PASSWORD=<your-elastic-password> CI_POSTGRES_PASSWORD=<your-pg-password> ./run.sh
+```
 
 # References
 
