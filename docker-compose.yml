@@ -46,14 +46,121 @@ services:
         - wget -q --spider --proxy=off localhost:4000/api/v1/streaming/health ||
           exit 1
 
-  sidekiq:
-    container_name: monsts-sidekiq
+  sidekiq-default:
+    container_name: monsts-sidekiq-default
     build:
       dockerfile: Dockerfile.mastodon
       context: .
     restart: always
     env_file: .env.production
-    command: bundle exec sidekiq
+    environment:
+      - DB_POOL=20
+    command: bundle exec sidekiq -c 20 -q default
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - ps aux | grep '[s]idekiq 6' || false
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  sidekiq-ingress:
+    container_name: monsts-sidekiq-ingress
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: .
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -c 3 -q ingress
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - ps aux | grep '[s]idekiq 6' || false
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  sidekiq-mailer:
+    container_name: monsts-sidekiq-mailer
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: .
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -c 1 -q mailer
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - ps aux | grep '[s]idekiq 6' || false
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  sidekiq-scheduler:
+    container_name: monsts-sidekiq-scheduler
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: .
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -c 1 -q scheduler
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - ps aux | grep '[s]idekiq 6' || false
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  sidekiq-pull:
+    container_name: monsts-sidekiq-pull
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: .
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -c 4 -q pull
+    depends_on:
+      - db
+      - redis
+    networks:
+      - monsts
+      - nginx-proxy
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - ps aux | grep '[s]idekiq 6' || false
+    volumes:
+      - ./mastodon/public/system:/mastodon/public/system
+
+  sidekiq-push:
+    container_name: monsts-sidekiq-push
+    build:
+      dockerfile: Dockerfile.mastodon
+      context: .
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq -c 1 -q push
     depends_on:
       - db
       - redis
