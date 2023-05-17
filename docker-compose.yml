@@ -97,7 +97,7 @@ services:
       context: .
     restart: always
     env_file: .env.production
-    command: bundle exec sidekiq -c 1 -q mailer
+    command: bundle exec sidekiq -c 1 -q mailers
     depends_on:
       - db
       - redis
