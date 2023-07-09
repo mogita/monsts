@@ -27,7 +27,6 @@ deploy:
   script:
     - |
       sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
-    - cat ${CI_PROJECT_DIR}/nginx.conf
     - mkdir -p ~/.ssh
     - echo "$CI_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
