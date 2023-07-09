@@ -2,6 +2,11 @@ stages:
   - deploy
 
 before_script:
+  - |
+    if [ -z "$ENVIRONMENT" ]; then
+      echo "ENVIRONMENT variable is not set. Pipeline failed."
+      exit 1
+    fi
   - apk add rsync openssh curl
   - cp $CI_ENV ${CI_PROJECT_DIR}/.env.production
   - |
@@ -22,8 +27,10 @@ before_script:
 deploy:
   image: alpine
   stage: deploy
-  only:
-    - tags
+  environment:
+    name: $ENVIRONMENT
+  rules:
+    - when: manual
   script:
     - |
       sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
