@@ -3,7 +3,7 @@ stages:
 
 before_script:
   - |
-    if [ -z "$CI_ENVIRONMENT_NAME" ]; then
+    if [ -z "$ENVIRONMENT" ]; then
       echo "ENVIRONMENT variable is not set. Pipeline failed."
       exit 1
     fi
@@ -28,9 +28,9 @@ deploy:
   image: alpine
   stage: deploy
   environment:
-    name: $CI_ENVIRONMENT_NAME
+    name: $ENVIRONMENT
   rules:
-    - exists
+    - if: '$CI_PIPELINE_SOURCE == "web"'
   script:
     - |
       sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
