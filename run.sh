@@ -10,6 +10,7 @@ fi
 if ! command -v docker-compose &> /dev/null; then
   echo "will alias docker-compose to 'docker compose' command"
   alias docker-compose='docker compose'
+  export docker-compose
 fi
 
 echo "---> working from directory: $CI_PATH"
