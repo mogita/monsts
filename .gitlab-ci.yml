@@ -27,8 +27,6 @@ before_script:
 deploy:
   image: alpine
   stage: deploy
-  only:
-    - web
   environment:
     name: $ENVIRONMENT
   rules:
