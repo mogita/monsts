@@ -14,8 +14,6 @@ before_script:
       echo "CI_LETSENCRYPT_EMAIL variable is not set. Pipeline failed."
       exit 1
     fi
-  - |
-    sed -i "s/server_name: \$CI_SERVER_NAME/server_name: $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
   - mkdir -p ${CI_PROJECT_DIR}/elasticsearch-certs
   - cp $CI_SSL_KEY ${CI_PROJECT_DIR}/elasticsearch-certs/admin-key.pem
   - cp $CI_SSL_CERT ${CI_PROJECT_DIR}/elasticsearch-certs/admin.pem
@@ -27,6 +25,9 @@ deploy:
   only:
     - tags
   script:
+    - |
+      sed -i "s/server_name: \$CI_SERVER_NAME/server_name: $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
+    - cat ${CI_PROJECT_DIR}/nginx.conf
     - mkdir -p ~/.ssh
     - echo "$CI_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
