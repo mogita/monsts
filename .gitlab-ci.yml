@@ -5,17 +5,17 @@ before_script:
   - apk add rsync openssh curl
   - cp $CI_ENV ${CI_PROJECT_DIR}/.env.production
   - |
-      if [ -z "$CI_SERVER_NAME" ]; then
-        echo "CI_SERVER_NAME variable is not set. Pipeline failed."
-        exit 1
-      fi
+    if [ -z "$CI_SERVER_NAME" ]; then
+      echo "CI_SERVER_NAME variable is not set. Pipeline failed."
+      exit 1
+    fi
   - |
-      if [ -z "$CI_LETSENCRYPT_EMAIL" ]; then
-        echo "CI_LETSENCRYPT_EMAIL variable is not set. Pipeline failed."
-        exit 1
-      fi
+    if [ -z "$CI_LETSENCRYPT_EMAIL" ]; then
+      echo "CI_LETSENCRYPT_EMAIL variable is not set. Pipeline failed."
+      exit 1
+    fi
   - |
-      sed -i "s/server_name: \$CI_SERVER_NAME/server_name: $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
+    sed -i "s/server_name: \$CI_SERVER_NAME/server_name: $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
   - mkdir -p ${CI_PROJECT_DIR}/elasticsearch-certs
   - cp $CI_SSL_KEY ${CI_PROJECT_DIR}/elasticsearch-certs/admin-key.pem
   - cp $CI_SSL_CERT ${CI_PROJECT_DIR}/elasticsearch-certs/admin.pem
@@ -33,4 +33,4 @@ deploy:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     # -I, --ignore-times don't skip files that match size and time
     - rsync -avI --exclude='.git/' --progress ./ $CI_REMOTE_USERNAME@$CI_REMOTE_HOST:$CI_REMOTE_PATH
-    - ssh $CI_REMOTE_USERNAME@$CI_REMOTE_HOST "CI_PATH=$CI_REMOTE_PATH CI_ELASTIC_PASSWORD=$CI_ELASTIC_PASSWORD CI_POSTGRES_PASSWORD=$CI_POSTGRES_PASSWORD $CI_REMOTE_PATH/run.sh"
+    - ssh $CI_REMOTE_USERNAME@$CI_REMOTE_HOST "CI_PATH=$CI_REMOTE_PATH CI_SERVER_NAME=$CI_SERVER_NAME CI_LETSENCRYPT_EMAIL=$CI_LETSENCRYPT_EMAIL CI_ELASTIC_PASSWORD=$CI_ELASTIC_PASSWORD CI_POSTGRES_PASSWORD=$CI_POSTGRES_PASSWORD $CI_REMOTE_PATH/run.sh"
