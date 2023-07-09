@@ -2,6 +2,16 @@
 
 set -e
 
+if ! command -v docker &> /dev/null; then
+    echo "Docker command not found. Please install Docker."
+    exit 1
+fi
+
+if ! command -v docker-compose &> /dev/null; then
+  echo "will alias docker-compose to 'docker compose' command"
+  alias docker-compose='docker compose'
+fi
+
 echo "---> working from directory: $CI_PATH"
 cd $CI_PATH
 
