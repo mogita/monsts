@@ -11,12 +11,12 @@ mkdir -p elasticsearch
 chown -R 1000:1000 elasticsearch
 
 echo "---> db migration..."
-docker compose run --rm web bundle exec rake db:migrate
+docker-compose run --rm web bundle exec rake db:migrate
 
 echo "---> assets precompilation..."
-docker compose run --rm web bundle exec rake assets:precompile
+docker-compose run --rm web bundle exec rake assets:precompile
 
 echo "---> bringing up containers..."
-docker compose up -d --build --remove-orphans --force-recreate
+docker-compose up -d --build --remove-orphans --force-recreate
 
 echo done
