@@ -20,6 +20,12 @@ before_script:
   - |
     sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
   - |
+    escaped=$(echo "$CI_SERVER_NAME" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_SERVER_NAME/$escaped/s" ${CI_PROJECT_DIR}/.env.production
+  - |
+    escaped=$(echo "$CI_POSTGRES_PASSWORD" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_POSTGRES_PASSWORD/$escaped/s" ${CI_PROJECT_DIR}/.env.production
+  - |
+    escaped=$(echo "$CI_ELASTIC_PASSWORD" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_ELASTIC_PASSWORD/$escaped/s" ${CI_PROJECT_DIR}/.env.production
+  - |
     escaped=$(echo "$CI_MASTODON_SECRETS" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_SECRETS/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
     escaped=$(echo "$CI_MASTODON_WEB_PUSH_KEYS" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_WEB_PUSH_KEYS/$escaped/s" ${CI_PROJECT_DIR}/.env.production
