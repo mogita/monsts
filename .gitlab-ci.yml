@@ -20,13 +20,13 @@ before_script:
   - |
     sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
   - |
-    perl -i -pe "BEGIN{undef $/;} s/\Q$CI_MASTODON_SECRETS\E/$(printf '%s' "$CI_MASTODON_SECRETS" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
+    escaped=$(echo "$CI_MASTODON_SECRETS" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_SECRETS/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe "BEGIN{undef $/;} s/\Q$CI_MASTODON_WEB_PUSH_KEYS\E/$(printf '%s' "$CI_MASTODON_WEB_PUSH_KEYS" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
+    escaped=$(echo "$CI_MASTODON_WEB_PUSH_KEYS" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_WEB_PUSH_KEYS/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe "BEGIN{undef $/;} s/\Q$CI_MASTODON_MAIL\E/$(printf '%s' "$CI_MASTODON_MAIL" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
+    escaped=$(echo "$CI_MASTODON_MAIL" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_MAIL/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe 'BEGIN{undef $/;} s/\Q$ENV{CI_MASTODON_FILE_STORAGE}\E/$ENV{CI_MASTODON_FILE_STORAGE}/g' ${CI_PROJECT_DIR}/.env.production
+    escaped=$(echo "$CI_MASTODON_FILE_STORAGE" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_FILE_STORAGE/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - cat .env.production
 
 deploy_single:
