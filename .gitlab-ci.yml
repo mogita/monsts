@@ -25,13 +25,13 @@ before_script:
   - |
     sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
   - |
-    perl -i -pe "s/\$CI_MASTODON_SECRETS/$CI_MASTODON_SECRETS/g" ${CI_PROJECT_DIR}/.env.production
+    perl -i -pe "s/\$CI_MASTODON_SECRETS/$(printf '%s\n' "$CI_MASTODON_SECRETS" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe "s/\$CI_MASTODON_WEB_PUSH_KEYS/$CI_MASTODON_WEB_PUSH_KEYS/g" ${CI_PROJECT_DIR}/.env.production
+    perl -i -pe "s/\$CI_MASTODON_WEB_PUSH_KEYS/$(printf '%s\n' "$CI_MASTODON_WEB_PUSH_KEYS" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe "s/\$CI_MASTODON_MAIL/$CI_MASTODON_MAIL/g" ${CI_PROJECT_DIR}/.env.production
+    perl -i -pe "s/\$CI_MASTODON_MAIL/$(printf '%s\n' "$CI_MASTODON_MAIL" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe "s/\$CI_MASTODON_FILE_STORAGE/$CI_MASTODON_FILE_STORAGE/g" ${CI_PROJECT_DIR}/.env.production
+    perl -i -pe "s/\$CI_MASTODON_FILE_STORAGE/$(printf '%s\n' "$CI_MASTODON_FILE_STORAGE" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
 
 deploy:
   image: alpine
