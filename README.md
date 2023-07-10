@@ -1,4 +1,4 @@
-# MONSTS
+# Monsts
 
 Create, customize and scale your Mastodon server with ease. Monsts stands for Mastodon Of Not So Typical Setup. Read my [blog article](https://mogita.com/a-personal-mastodon-instance-setup) for why and how I made this project.
 
@@ -18,6 +18,8 @@ Create, customize and scale your Mastodon server with ease. Monsts stands for Ma
 
 # Guides
 
+💁‍♂️ Should you meet any problem, please kindly search in [Issues](https://gitlab.com/mogita/monsts/-/issues) for any existing solutions, or create a new issue. Thanks.
+
 ## Preparations
 
 1. A Linux server with SSH key login enabled (other OS should work but not tested)
@@ -30,17 +32,17 @@ Create, customize and scale your Mastodon server with ease. Monsts stands for Ma
 1. Run the command `docker run --rm tootsuite/mastodon bundle exec rake secret` to generate strong secret codes for later use
 1. Run the command `docker run --rm tootsuite/mastodon bundle exec rake mastodon:webpush:generate_vapid_key` to generate web push keys for later use
 
-## Run Mastodon With GitLab CI/CD
+## Setup Mastodon
 
 > The recommended way. You can deploy and upgrade a Mastodon instance by just running a Pipeline.
 
 Before start, please fork this repository, you can either set your repository public or private. The following steps all take place in your forked repository.
 
-### Single Mastodon Instance
+### For A Single Mastodon Instance
 
 For most people this would be the case.
 
-1. Visit the `Settings - CI/CD` of your forked repository
+1. Go to `Settings - CI/CD` of your forked repository
 2. Expand the `Variables` section
 3. Add all of the following Variables with proper values:
    - **For server access from CI/CD pipelines:**
@@ -86,6 +88,27 @@ For most people this would be the case.
    - `CI_SSL_CA`: The SSL CA to secure ElasticSearch instance, can leave empty as ditto
    - `CI_SSL_CERT`: The SSL certificate to secure ElasticSearch, can leave empty as ditto
    - `CI_SSL_KEY`: The SSL private key to secure ElasticSearch, can leave empty as ditto
+4. Go to `CI/CD - Pipelines` (or `Build - Pipelines` if you're using the new GitLab navigation)
+5. Click on the "Run Pipeline" button. On the next page click "Run Pipeline" to start the pipeline.
+6. Wait for the pipeline to finish, and visit your Mastodon site to check if everything works.
+
+### For Multi-environment Mastodon Instances
+
+For someone like me who needs to run and manage several Mastodon instances, it's fairly easy to do with Monsts too.
+
+You'll need some basic knowledge about [GitLab Environment](https://docs.gitlab.com/ee/ci/environments/) feature. Assuming we have 2 sites to setup, one under the domain name of `mog.blue` and another `example.site`.
+
+1. Go to `Operations - Environments` (or `Operate - Environment` if you're using the new GitLab navigation) of your forked repository
+1. Click on the "New Environment" button, put `mog.blue` as the name, and `https://mog.blue` as the External URL, then click "Save"
+1. Create another environment, put `example.site` as the name and `https://example.site` as the External URL and save
+1. Repeat as many times as how many Mastodon instance you want to deploy
+1. Go to `Settings - CI/CD` and expand the `Variables` section
+1. Create all the Variables as in step 3 from the "Single Instance" guide above. Now please notice you'll specify the environments here, correspond the environment to the actual Mastodon site you're creating. For example, you'll want site `example.site` to use `strong-password-1` as the PostgreSQL password, you'll set the environment to `example.site` when creating the variable `CI_POSTGRES_PASSWORD`
+1. Go to `CI/CD - Pipelines` (or `Build - Pipelines` if you're using the new GitLab navigation)
+1. Click on the "Run Pipeline" button. On the next page, put `ENVIRONMENT` in the "Input variable key" box, and the domain name for the site you're deploying into "Input variable value, for example `example.site`
+1. Click "Run Pipeline" to start the pipeline.
+1. Wait for the pipeline to finish, and visit `example.site` to check if everything works.
+1. To deploy another site, head back to "Run Pipeline" and put `mog.blue`, for example, into the "Input variable value" box.
 
 # References
 
