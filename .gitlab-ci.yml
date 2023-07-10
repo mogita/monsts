@@ -3,11 +3,6 @@ stages:
 
 before_script:
   - |
-    if [ -z "$ENVIRONMENT" ]; then
-      echo "ENVIRONMENT variable is not set. Pipeline failed."
-      exit 1
-    fi
-  - |
     if [ -z "$CI_SERVER_NAME" ]; then
       echo "CI_SERVER_NAME variable is not set. Pipeline failed."
       exit 1
