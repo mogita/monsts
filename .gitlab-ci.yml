@@ -19,16 +19,25 @@ before_script:
     fi
   - apk add rsync openssh curl
   - mkdir -p ${CI_PROJECT_DIR}/elasticsearch-certs
-  - cp $CI_ENV ${CI_PROJECT_DIR}/.env.production
   - cp $CI_SSL_KEY ${CI_PROJECT_DIR}/elasticsearch-certs/admin-key.pem
   - cp $CI_SSL_CERT ${CI_PROJECT_DIR}/elasticsearch-certs/admin.pem
   - cp $CI_SSL_CA ${CI_PROJECT_DIR}/elasticsearch-certs/root-ca.pem
   - |
     sed -i "s/server_name \$CI_SERVER_NAME/server_name $CI_SERVER_NAME/" ${CI_PROJECT_DIR}/nginx.conf
+  - |
+    sed -i "s/\$CI_MASTODON_SECRETS/$CI_MASTODON_SECRETS/" ${CI_PROJECT_DIR}/.env.production
+  - |
+    sed -i "s/\$CI_MASTODON_WEB_PUSH_KEYS/$CI_MASTODON_WEB_PUSH_KEYS/" ${CI_PROJECT_DIR}/.env.production
+  - |
+    sed -i "s/\$CI_MASTODON_MAIL/$CI_MASTODON_MAIL/" ${CI_PROJECT_DIR}/.env.production
+  - |
+    sed -i "s/\$CI_MASTODON_FILE_STORAGE/$CI_MASTODON_FILE_STORAGE/" ${CI_PROJECT_DIR}/.env.production
 
 deploy:
   image: alpine
   stage: deploy
+  variables:
+    ENVIRONMENT: "*"
   environment:
     name: $ENVIRONMENT
   rules:
