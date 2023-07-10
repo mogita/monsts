@@ -14,7 +14,7 @@ Create, customize and scale your Mastodon server with ease. Monsts stands for Ma
 
 - Setup Docker and Docker Compose on your server
 - Setup a few CI/CD Variables
-- Run the Pipeline and enjoy your Mastodon instance, both for creation and upgrade!
+- Run the Pipeline and enjoy your Mastodon instance, for both creation and upgrade!
 
 # Guides
 
