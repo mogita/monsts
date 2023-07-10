@@ -17,7 +17,7 @@ before_script:
       echo "CI_LETSENCRYPT_EMAIL variable is not set. Pipeline failed."
       exit 1
     fi
-  - apk add rsync openssh curl
+  - apk add rsync openssh curl perl
   - mkdir -p ${CI_PROJECT_DIR}/elasticsearch-certs
   - cp $CI_SSL_KEY ${CI_PROJECT_DIR}/elasticsearch-certs/admin-key.pem
   - cp $CI_SSL_CERT ${CI_PROJECT_DIR}/elasticsearch-certs/admin.pem
