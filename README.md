@@ -1,6 +1,6 @@
 # MONSTS
 
-Run, customize and scale your Mastodon server with ease. Monsts stands for Mastodon Of Not So Typical Setup.
+Create, customize and scale your Mastodon server with ease. Monsts stands for Mastodon Of Not So Typical Setup. Read my [blog article](https://mogita.com/a-personal-mastodon-instance-setup) for why and how I made this project.
 
 # Features
 
@@ -43,15 +43,15 @@ For most people this would be the case.
 1. Visit the `Settings - CI/CD` of your forked repository
 2. Expand the `Variables` section
 3. Add all of the following Variables with proper values:
-   - Server access from CI/CD pipelines:
+   - **For server access from CI/CD pipelines:**
    - `CI_REMOTE_HOST`: The IP address of your server
    - `CI_REMOTE_PATH`: The path to store Monsts deployment files and data (Docker will mount database directory in it too)
    - `CI_REMOTE_USERNAME`: The username of your server
    - `CI_PRIVATE_KEY`: The content of the private key generated from the Preparations
-   - Nginx settings:
+   - **For Nginx settings:**
    - `CI_SERVER_NAME`: The domain name of your Mastodon server, for example `mog.blue` (without `https://`)
    - `CI_LETSENCRYPT_EMAI`: The Email for Let's Encrypt SSL creation
-   - Mastodon settings:
+   - **For Mastodon settings:**
    - `CI_MASTODON_SECRETS`: Copy / paste the content from previously generated secrets, example:
      ```
      SECRET_KEY_BASE=<some-key>
@@ -81,24 +81,13 @@ For most people this would be the case.
      AWS_ACCESS_KEY_ID=your-key
      AWS_SECRET_ACCESS_KEY=your-secret
      ```
-   - `CI_POSTGRES_PASSWORD`: The password for database, it's recommended to generate a complex string using a password generator like [this one](https://passwordsgenerator.net). Just DON'T leave this empty or your database lacks password protection.
-   - `CI_ELASTIC_PASSWORD`: The password to secure the ElasticSearch instance, can leave empty if you won't enable ElasticSearch
+   - `CI_POSTGRES_PASSWORD`: The password for database. It's recommended to generate a complex string using a password generator like [this one](https://passwordsgenerator.net). Just DON'T leave this empty or your database lacks password protection.
+   - `CI_ELASTIC_PASSWORD`: The password to secure the ElasticSearch instance, can leave empty if you won't enable ElasticSearch. By default ES is disabled, you can enable it by changing the `ES_ENABLED` config from `.env.production`.
    - `CI_SSL_CA`: The SSL CA to secure ElasticSearch instance, can leave empty as ditto
    - `CI_SSL_CERT`: The SSL certificate to secure ElasticSearch, can leave empty as ditto
    - `CI_SSL_KEY`: The SSL private key to secure ElasticSearch, can leave empty as ditto
 
-# Usage
-
-- Compose your own `.env.production` file in project root
-- Run `run.sh` with the necessary environment variables from the project root directory to start, example:
-
-```shell
-CI_PATH=<your-project-path> CI_ELASTIC_PASSWORD=<your-elastic-password> CI_POSTGRES_PASSWORD=<your-pg-password> ./run.sh
-```
-
 # References
-
-Please refer to my [blog article](https://mogita.com/a-personal-mastodon-instance-setup) for description about this setup.
 
 Links that helped me with this setup:
 
