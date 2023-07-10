@@ -43,8 +43,6 @@ Create, customize and scale your Mastodon server with ease. Monsts stands for Ma
 
 ## Setup Mastodon
 
-> The recommended way. You can deploy and upgrade a Mastodon instance by just running a Pipeline.
-
 Before start, please fork this repository, you can either set your repository public or private. The following steps all take place in your forked repository.
 
 ### For A Single Mastodon Instance
@@ -129,7 +127,7 @@ Assuming we have 2 sites to setup, one under the domain name of `mog.blue` and a
 1. Wait for the pipeline to finish, and visit `example.site` to check if everything works.
 1. To deploy another site, head back to "Run Pipeline" and put `mog.blue`, for example, into the "Input variable value" box.
 
-# Upgrade Mastodon
+## Upgrade Mastodon
 
 For future upgrades, change the version number in `Dockerfile.mastodon` and run the Pipeline again, and you're all set.
 
