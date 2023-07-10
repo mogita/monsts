@@ -26,7 +26,7 @@ before_script:
   - |
     perl -i -pe "BEGIN{undef $/;} s/\Q$CI_MASTODON_MAIL\E/$(printf '%s' "$CI_MASTODON_MAIL" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
   - |
-    perl -i -pe "BEGIN{undef $/;} s/\Q$CI_MASTODON_FILE_STORAGE\E/$(printf '%s' "$CI_MASTODON_FILE_STORAGE" | perl -pe 's/([\\$@%\/])/\\$1/g')/g" ${CI_PROJECT_DIR}/.env.production
+    perl -i -pe 'BEGIN{undef $/;} s/\Q$ENV{CI_MASTODON_FILE_STORAGE}\E/$ENV{CI_MASTODON_FILE_STORAGE}/g' ${CI_PROJECT_DIR}/.env.production
 
 deploy_single:
   image: alpine
