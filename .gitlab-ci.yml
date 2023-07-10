@@ -33,7 +33,6 @@ before_script:
     escaped=$(echo "$CI_MASTODON_MAIL" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_MAIL/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
     escaped=$(echo "$CI_MASTODON_FILE_STORAGE" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_FILE_STORAGE/$escaped/s" ${CI_PROJECT_DIR}/.env.production
-  - cat .env.production
 
 deploy_single:
   image: alpine
