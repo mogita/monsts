@@ -37,8 +37,7 @@ deploy_single:
   image: alpine
   stage: deploy
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: $ENVIRONMENT == null || $ENVIRONMENT == ""
+    - if: $CI_PIPELINE_SOURCE == "web" && ($ENVIRONMENT == null || $ENVIRONMENT == "")
   script:
     - echo "Deploying in Single Instance mode..."
     - mkdir -p ~/.ssh
@@ -55,8 +54,7 @@ deploy_multi_env:
   environment:
     name: $ENVIRONMENT
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-    - if: $ENVIRONMENT != null && $ENVIRONMENT != ""
+    - if: $CI_PIPELINE_SOURCE == "web" && $ENVIRONMENT != null && $ENVIRONMENT != ""
   script:
     - echo "Deploying in Multi-environment mode to <$ENVIRONMENT>..."
     - mkdir -p ~/.ssh
