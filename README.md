@@ -18,7 +18,7 @@ Create, customize and scale your Mastodon server with ease. Monsts stands for Ma
 
 # Guides
 
-💁‍♂️ Should you meet any problem, please kindly search in [Issues](https://gitlab.com/mogita/monsts/-/issues) for any existing solutions, or create a new issue. Thanks.
+💁‍♂️ Should you meet any problem, please kindly search in [Issues](https://gitlab.com/mogita/monsts/-/issues) for any existing solutions, or create a new issue. Thank you.
 
 ## Preparations
 
