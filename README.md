@@ -14,8 +14,7 @@ Create, customize and scale your Mastodon server with ease. Monsts stands for Ma
 
 - Setup Docker and Docker Compose on your server
 - Setup a few CI/CD Variables
-- Run the Pipeline and enjoy your Mastodon instance!
-- For future upgrades, change the version number in `Dockerfile.mastodon` and run the Pipeline
+- Run the Pipeline and enjoy your Mastodon instance, both for creation and upgrade!
 
 # Guides
 
@@ -103,15 +102,15 @@ For most people this would be the case.
 
 #### Trigger Single-env Deployment
 
-4. Go to `CI/CD - Pipelines` (or `Build - Pipelines` if you're using the new GitLab navigation)
-5. Click on the "Run Pipeline" button. On the next page click "Run Pipeline" to start the pipeline.
-6. Wait for the pipeline to finish, and visit your Mastodon site to check if everything works.
+1. Go to `CI/CD - Pipelines` (or `Build - Pipelines` if you're using the new GitLab navigation)
+2. Click on the "Run Pipeline" button. On the next page click "Run Pipeline" to start the pipeline.
+3. Wait for the pipeline to finish, and visit your Mastodon site to check if everything works.
 
 ### For Multi-environment Mastodon Instances
 
-For someone like me who needs to run and manage several Mastodon instances, it's fairly easy to do with Monsts too.
+For someone like me who needs to run and manage several Mastodon instances, it's fairly easy to do with Monsts too. You'll need some basic knowledge about [GitLab Environment](https://docs.gitlab.com/ee/ci/environments/) feature.
 
-You'll need some basic knowledge about [GitLab Environment](https://docs.gitlab.com/ee/ci/environments/) feature. Assuming we have 2 sites to setup, one under the domain name of `mog.blue` and another `example.site`.
+Assuming we have 2 sites to setup, one under the domain name of `mog.blue` and another `example.site`:
 
 #### Setup Environment and Variables
 
@@ -129,6 +128,10 @@ You'll need some basic knowledge about [GitLab Environment](https://docs.gitlab.
 1. Click "Run Pipeline" to start the pipeline.
 1. Wait for the pipeline to finish, and visit `example.site` to check if everything works.
 1. To deploy another site, head back to "Run Pipeline" and put `mog.blue`, for example, into the "Input variable value" box.
+
+# Upgrade Mastodon
+
+For future upgrades, change the version number in `Dockerfile.mastodon` and run the Pipeline again, and you're all set.
 
 # References
 
