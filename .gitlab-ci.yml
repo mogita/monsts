@@ -22,6 +22,8 @@ before_script:
   - |
     escaped=$(echo "$CI_SERVER_NAME" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_SERVER_NAME/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
+    escaped=$(echo "$CI_ALTERNATE_DOMAINS" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_ALTERNATE_DOMAINS/$escaped/s" ${CI_PROJECT_DIR}/.env.production
+  - |
     escaped=$(echo "$CI_POSTGRES_PASSWORD" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_POSTGRES_PASSWORD/$escaped/s" ${CI_PROJECT_DIR}/.env.production
   - |
     escaped=$(echo "$CI_ELASTIC_PASSWORD" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_ELASTIC_PASSWORD/$escaped/s" ${CI_PROJECT_DIR}/.env.production
