@@ -278,4 +278,4 @@ networks:
     internal: true
   nginx-proxy:
     external:
-      name: nginx-proxy
+      name: nginx-proxy-manager_default
