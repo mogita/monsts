@@ -1,5 +1,5 @@
----
-version: "3"
+version: "3.8"
+
 services:
   web:
     container_name: monsts-web
@@ -9,8 +9,6 @@ services:
     restart: always
     env_file: .env.production
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
-    ports:
-      - 127.0.0.1:3000:3000
     depends_on:
       - db
       - redis
@@ -32,8 +30,6 @@ services:
     restart: always
     env_file: .env.production
     command: node ./streaming
-    ports:
-      - 127.0.0.1:4000:4000
     depends_on:
       - db
       - redis
@@ -255,23 +251,6 @@ services:
   #     volumes:
   #       - ./elasticsearch:/usr/share/elasticsearch/data
   #       - ./elasticsearch-certs:/usr/share/elasticsearch/config/certs
-
-  nginx-web:
-    container_name: monsts-nginx-web
-    image: nginx:latest
-    restart: always
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/monsts.conf
-    expose:
-      - 80
-      - 443
-    networks:
-      - monsts
-      - nginx-proxy
-    environment:
-      VIRTUAL_HOST: $CI_SERVER_NAME
-      LETSENCRYPT_HOST: $CI_SERVER_NAME
-      LETSENCRYPT_EMAIL: $CI_LETSENCRYPT_EMAIL
 
 networks:
   monsts:
