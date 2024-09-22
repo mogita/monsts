@@ -2,9 +2,9 @@ diff --git a/app/chewy/tags_index.rb b/app/chewy/tags_index.rb
 --- a/app/chewy/tags_index.rb
 +++ b/app/chewy/tags_index.rb
 @@ -2,10 +2,19 @@
- 
+
  class TagsIndex < Chewy::Index
-   settings index: { refresh_interval: '30s' }, analysis: {
+   settings index: { refresh_interval: '15m' }, analysis: {
 +    char_filter: {
 +      tsconvert: {
 +        type: 'stconvert',
@@ -20,5 +20,5 @@ diff --git a/app/chewy/tags_index.rb b/app/chewy/tags_index.rb
          filter: %w(lowercase asciifolding cjk_width),
 +        char_filter: %w(tsconvert),
        },
- 
+
        edge_ngram: {

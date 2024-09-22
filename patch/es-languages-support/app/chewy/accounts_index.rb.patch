@@ -5,7 +5,7 @@ diff --git a/app/chewy/accounts_index.rb b/app/chewy/accounts_index.rb
    settings index: { refresh_interval: '5m' }, analysis: {
      analyzer: {
        content: {
--        tokenizer: 'standard',
+-        tokenizer: 'whitespace',
 +        tokenizer: 'ik_max_word',
          filter: %w(lowercase asciifolding cjk_width),
        },
