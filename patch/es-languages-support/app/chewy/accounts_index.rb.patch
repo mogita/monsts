@@ -1,12 +1,20 @@
 diff --git a/app/chewy/accounts_index.rb b/app/chewy/accounts_index.rb
 --- a/app/chewy/accounts_index.rb
 +++ b/app/chewy/accounts_index.rb
-@@ -4,7 +4,7 @@ class AccountsIndex < Chewy::Index
-   settings index: { refresh_interval: '5m' }, analysis: {
+@@ -23,7 +23,7 @@ class AccountsIndex < Chewy::Index
+
      analyzer: {
-       content: {
--        tokenizer: 'whitespace',
+       natural: {
+-        tokenizer: 'standard',
++        tokenizer: 'ik_max_word',
+         filter: %w(
+           lowercase
+           asciifolding
+@@ -36,7 +36,7 @@ class AccountsIndex < Chewy::Index
+       },
+
+       verbatim: {
+-        tokenizer: 'standard',
 +        tokenizer: 'ik_max_word',
          filter: %w(lowercase asciifolding cjk_width),
        },
-
