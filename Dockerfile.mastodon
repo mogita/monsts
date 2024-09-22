@@ -6,15 +6,15 @@ RUN mkdir -p /var/cache/apt/archives/partial && apt-get autoclean
 RUN apt-get update && apt-get install -y sudo vim htop patch && rm -rf /var/lib/apt/lists/*
 
 # Patch code to enable ES non-English languages support
-# WORKDIR /root/patch/es-languages-support/app/chewy
+WORKDIR /root/patch/es-languages-support/app/chewy
 
-# COPY patch/es-languages-support/app/chewy/accounts_index.rb.patch .
-# COPY patch/es-languages-support/app/chewy/statuses_index.rb.patch .
-# COPY patch/es-languages-support/app/chewy/tags_index.rb.patch .
+COPY patch/es-languages-support/app/chewy/accounts_index.rb.patch .
+COPY patch/es-languages-support/app/chewy/statuses_index.rb.patch .
+COPY patch/es-languages-support/app/chewy/tags_index.rb.patch .
 
-# RUN patch /mastodon/app/chewy/accounts_index.rb accounts_index.rb.patch
-# RUN patch /mastodon/app/chewy/statuses_index.rb statuses_index.rb.patch
-# RUN patch /mastodon/app/chewy/tags_index.rb tags_index.rb.patch
+RUN patch /mastodon/app/chewy/accounts_index.rb accounts_index.rb.patch
+RUN patch /mastodon/app/chewy/statuses_index.rb statuses_index.rb.patch
+RUN patch /mastodon/app/chewy/tags_index.rb tags_index.rb.patch
 
 # Restore working dir
 WORKDIR /opt/mastodon
