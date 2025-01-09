@@ -26,6 +26,7 @@ echo "---> db migration..."
 docker-compose run --rm web bundle exec rake db:migrate
 
 echo "---> running assets precompile..."
+docker-compose run --rm web bundle exec rake assets:clobber
 docker-compose run --rm web bundle exec rake assets:precompile
 
 echo "---> bringing up containers..."
