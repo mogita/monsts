@@ -4,6 +4,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
@@ -22,9 +24,7 @@ services:
 
   streaming:
     container_name: monsts-streaming
-    build:
-      dockerfile: Dockerfile.mastodon
-      context: .
+    image: ghcr.io/mastodon/streaming:$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: node ./streaming
@@ -45,6 +45,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     environment:
@@ -68,6 +70,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq -c 3 -q ingress
@@ -89,6 +93,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq -c 1 -q mailers
@@ -110,6 +116,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq -c 1 -q scheduler
@@ -131,6 +139,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq -c 4 -q pull
@@ -152,6 +162,8 @@ services:
     build:
       dockerfile: Dockerfile.mastodon
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq -c 1 -q push
@@ -212,6 +224,8 @@ services:
     build:
       dockerfile: Dockerfile.elasticsearch
       context: .
+      args:
+        - CI_MASTODON_VERSION=$CI_MASTODON_VERSION
     restart: always
     environment:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true

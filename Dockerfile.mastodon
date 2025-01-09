@@ -1,4 +1,5 @@
-FROM ghcr.io/mastodon/mastodon:v4.3.2
+ARG CI_MASTODON_VERSION
+FROM ghcr.io/mastodon/mastodon:${CI_MASTODON_VERSION}
 
 USER root
 

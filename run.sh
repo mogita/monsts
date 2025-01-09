@@ -14,6 +14,8 @@ if ! command -v docker-compose &> /dev/null; then
   }
 fi
 
+echo "---> mastodon version: $CI_MASTODON_VERSION"
+
 echo "---> working from directory: $CI_PATH"
 cd $CI_PATH
 
