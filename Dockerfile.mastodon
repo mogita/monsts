@@ -3,7 +3,7 @@ FROM ghcr.io/mastodon/mastodon:v4.3.2
 USER root
 
 RUN mkdir -p /var/cache/apt/archives/partial && apt-get autoclean
-RUN apt-get update && apt-get install -y sudo vim htop patch curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y sudo vim htop patch curl git && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
