@@ -24,7 +24,7 @@ services:
 
   streaming:
     container_name: monsts-streaming
-    image: ghcr.io/mastodon/streaming:$CI_MASTODON_VERSION
+    image: ghcr.io/mastodon/mastodon-streaming:$CI_MASTODON_VERSION
     restart: always
     env_file: .env.production
     command: node ./streaming
