@@ -9,6 +9,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 RUN node -v
 RUN npm -v
+RUN npm install -g yarn
 
 # Patch code to enable ES non-English languages support
 WORKDIR /root/patch/es-languages-support/app/chewy
