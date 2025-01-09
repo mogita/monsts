@@ -25,9 +25,6 @@ chown -R 1000:1000 elasticsearch
 echo "---> db migration..."
 docker-compose run --build --rm web bundle exec rake db:migrate
 
-echo "---> running assets precompile..."
-docker-compose run --build --rm web bundle exec rake assets:precompile
-
 echo "---> bringing up containers..."
 docker-compose up -d --build --remove-orphans --force-recreate
 
