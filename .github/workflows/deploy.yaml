@@ -32,9 +32,9 @@ jobs:
       - name: Setup SSL certificates
         run: |
           mkdir -p ${{ github.workspace }}/elasticsearch-certs
-          echo ${{ vars.CI_SSL_KEY }} > ${{ github.workspace }}/elasticsearch-certs/admin-key.pem
-          echo ${{ vars.CI_SSL_CERT }} > ${{ github.workspace }}/elasticsearch-certs/admin.pem
-          echo ${{ vars.CI_SSL_CA }} > ${{ github.workspace }}/elasticsearch-certs/root-ca.pem
+          echo "${{ secrets.CI_SSL_KEY_B64 }}" | base64 -d > ${{ github.workspace }}/elasticsearch-certs/admin-key.pem
+          echo "${{ secrets.CI_SSL_CERT_B64 }}" | base64 -d > ${{ github.workspace }}/elasticsearch-certs/admin.pem
+          echo "${{ secrets.CI_SSL_CA_B64 }}" | base64 -d > ${{ github.workspace }}/elasticsearch-certs/root-ca.pem
 
       - name: Update nginx.conf and .env.production
         run: |
