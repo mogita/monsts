@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y sudo vim htop patch curl && rm -rf /var
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 RUN corepack enable
+RUN yarn init -2
 RUN yarn set version 4.x
 
 # Patch code to enable ES non-English languages support
