@@ -47,6 +47,9 @@ jobs:
           escaped=$(echo "${{ vars.CI_MASTODON_WEB_PUSH_KEYS }}" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_WEB_PUSH_KEYS/$escaped/s" ${{ github.workspace }}/.env.production
           escaped=$(echo "${{ vars.CI_MASTODON_MAIL }}" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_MAIL/$escaped/s" ${{ github.workspace }}/.env.production
           escaped=$(echo "${{ vars.CI_MASTODON_FILE_STORAGE }}" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_MASTODON_FILE_STORAGE/$escaped/s" ${{ github.workspace }}/.env.production
+          escaped=$(echo "${{ vars.CI_ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY }}" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY/$escaped/s" ${{ github.workspace }}/.env.production
+          escaped=$(echo "${{ vars.CI_ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT }}" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT/$escaped/s" ${{ github.workspace }}/.env.production
+          escaped=$(echo "${{ vars.CI_ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY }}" | sed -e 's/[\/&]/\\&/g'); perl -i -p0e "s/CI_ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY/$escaped/s" ${{ github.workspace }}/.env.production
 
       - name: Setup SSH
         run: |
