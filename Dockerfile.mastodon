@@ -10,6 +10,7 @@ RUN apt-get install -y nodejs
 RUN corepack enable
 RUN yarn init -2
 RUN yarn set version 4.x
+RUN yarn install
 
 # Patch code to enable ES non-English languages support
 WORKDIR /root/patch/es-languages-support/app/chewy
