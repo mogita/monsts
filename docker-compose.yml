@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   web:
     container_name: monsts-web
@@ -256,5 +254,5 @@ networks:
   monsts:
     internal: true
   nginx-proxy:
-    external:
-      name: nginx-proxy-manager_default
+    external: true
+    name: nginx-proxy-manager_default

@@ -59,6 +59,7 @@ jobs:
       - name: Sync files with rsync
         run: |
           rsync -avI --exclude='.git/' --progress ./ ${{ vars.CI_REMOTE_USERNAME }}@${{ vars.CI_REMOTE_HOST }}:${{ vars.CI_REMOTE_PATH }}
+
       - name: Run deployment script
         run: |
           ssh ${{ vars.CI_REMOTE_USERNAME }}@${{ vars.CI_REMOTE_HOST }} "CI_PATH=${{ vars.CI_REMOTE_PATH }} CI_SERVER_NAME=${{ vars.CI_SERVER_NAME }} CI_LETSENCRYPT_EMAIL=${{ vars.CI_LETSENCRYPT_EMAIL }} CI_ELASTIC_PASSWORD=${{ vars.CI_ELASTIC_PASSWORD }} CI_POSTGRES_PASSWORD=${{ vars.CI_POSTGRES_PASSWORD }} ${{ vars.CI_REMOTE_PATH }}/run.sh"
