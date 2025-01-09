@@ -25,8 +25,8 @@ chown -R 1000:1000 elasticsearch
 echo "---> db migration..."
 docker-compose run --rm web bundle exec rake db:migrate
 
-echo "---> running mastodon setup..."
-docker-compose run --rm web bundle exec rake mastodon:setup
+echo "---> running assets precompile..."
+docker-compose run --rm web bundle exec rake assets:precompile
 
 echo "---> bringing up containers..."
 docker-compose up -d --build --remove-orphans --force-recreate
